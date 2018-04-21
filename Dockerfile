@@ -23,7 +23,7 @@ RUN bash Miniconda3-latest-Linux-x86_64.sh -b
 
 ENV PATH /root/miniconda3/bin:$PATH
 
-RUN conda install opencv shapely requests numpy --yes
+RUN conda install opencv=2.4.10 shapely requests numpy --yes
 
 RUN apt-get -y update && apt-get install -y \
     apt-transport-https \
