@@ -20,18 +20,21 @@ MAINTAINER Cytomine Tean "support@cytomine.be"
 
 ENV PATH /opt/conda/bin:$PATH
 
-RUN apt-get -y update && apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    git \
-    g++ \
-    language-pack-en-base \
-    libglib2.0-0 \
-    lxc \
-    iptables \
-    make \
-    zip
+RUN apt-get update -o Acquire::CompressionTypes::Order::=gz && \
+    apt-get upgrade -y && \
+    apt-get -y update && \
+    apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        git \
+        g++ \
+        language-pack-en-base \
+        libglib2.0-0 \
+        lxc \
+        iptables \
+        make \
+        zip
 
 RUN cd / && wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 RUN cd / && bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda
