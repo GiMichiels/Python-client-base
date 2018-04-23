@@ -18,12 +18,7 @@ FROM cytomine/base:v1.1
 
 MAINTAINER Cytomine Tean "support@cytomine.be"
 
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-RUN bash Miniconda3-latest-Linux-x86_64.sh -b
-
-ENV PATH /root/miniconda3/bin:$PATH
-
-RUN conda install opencv=2.4.10 shapely requests numpy --yes
+ENV PATH /opt/conda/bin:$PATH
 
 RUN apt-get -y update && apt-get install -y \
     apt-transport-https \
@@ -38,18 +33,23 @@ RUN apt-get -y update && apt-get install -y \
     make \
     zip
 
-RUN mkdir -p /root/Cytomine/
+RUN cd / && wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+RUN cd / && bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda
 
-RUN cd /root/Cytomine/ && \
+RUN conda install opencv shapely requests numpy --yes
+
+RUN mkdir -p /Cytomine/
+
+RUN cd /Cytomine/ && \
     git clone https://github.com/cytomine/Cytomine-python-client.git && \
     cd Cytomine-python-client/ && \
     git checkout refactoring
 
-RUN cd /root/Cytomine/Cytomine-python-client/ && \
+RUN cd /Cytomine/Cytomine-python-client/ && \
     python setup.py build && \
     python setup.py install
 
-RUN cd /root/Cytomine/ && \
+RUN cd /Cytomine/ && \
     git clone https://github.com/cytomine/Cytomine-tools.git &&\
     cd Cytomine-tools/ && \
     git checkout tags/v1.1
